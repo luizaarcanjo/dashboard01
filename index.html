@@ -133,8 +133,9 @@
         <div class="botoes">
             <button onclick="carregarImagem('clusterizacao')">🔍 Clusterização</button>
             <button onclick="carregarImagem('clv')">💰 CLV</button>
+	    <button onclick="carregarImagem('clv-campanha')"> CLV por Campanha</button>
             <button onclick="carregarImagem('conjoint')">📈 Conjoint</button>
-            <button onclick="carregarImagem('previsao')">🔮 Previsão</button>
+            <button onclick="carregarImagem('regressão')">🔮 Previsão</button>
             <button onclick="carregarCSV()">📂 Carregar Dados</button>
         </div>
 
@@ -175,9 +176,8 @@
 
                 const headers = linhas[0].split(',').map(h => h.trim());
                 const expectedHeaders = [
-                    'cliente_id', 'idade', 'renda_anual', 'frequencia_compras',
-                    'valor_medio_compra', 'preferencia_frete_gratis',
-                    'satisfacao_qualidade', 'total_gasto'
+                    'cliente_id', 'idade', 'renda_mensal', 'frequencia_compras',
+                    'cidade', 'tipo_cliente', 'total_gasto'
                 ];
 
                 if (!arraysIguais(headers, expectedHeaders)) {
@@ -229,12 +229,16 @@
                 const formatadores = {
                     'cliente_id': v => `#${v.padStart(4, '0')}`,
                     'idade': v => `${v} anos`,
-                    'renda_anual': v => new Intl.NumberFormat('pt-BR', {
+                    'renda_mensal': v => new Intl.NumberFormat('pt-BR', {
                         style: 'currency',
                         currency: 'BRL'
                     }).format(v),
-                    'satisfacao_qualidade': v => `${parseFloat(v).toFixed(1)} ⭐`,
-                    'preferencia_frete_gratis': v => v === '1' ? '✅ Sim' : '❌ Não'
+                    'frequencia_compras': v => `${v} vezes`,
+                    'tipo_cliente': v => `${v}`,
+                    'total_gasto': v => new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                    }).format(v)
                 };
                 return formatadores[cabecalho]?.(valor) || valor;
             } catch (error) {
