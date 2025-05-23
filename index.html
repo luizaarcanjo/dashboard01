@@ -176,8 +176,9 @@
 
                 const headers = linhas[0].split(',').map(h => h.trim());
                 const expectedHeaders = [
-                    'cliente_id', 'idade', 'renda_mensal', 'frequencia_compras',
-                    'cidade', 'tipo_cliente', 'total_gasto'
+                    'cliente_id', 'idade', 'renda_mensal', 'cidade',
+		     'tipo_cliente', 'ultima_compra',
+		    'frequencia_compras', 'total_gasto'
                 ];
 
                 if (!arraysIguais(headers, expectedHeaders)) {
@@ -238,7 +239,8 @@
                     'total_gasto': v => new Intl.NumberFormat('pt-BR', {
                         style: 'currency',
                         currency: 'BRL'
-                    }).format(v)
+                    }).format(v),
+                    'ultima_compra': v => `${v}`
                 };
                 return formatadores[cabecalho]?.(valor) || valor;
             } catch (error) {
